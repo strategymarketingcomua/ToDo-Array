@@ -24,7 +24,7 @@ const list = [
     taskPrioriti: "high",
   },
 ];
-
+let countId = list.length;
 function findTask(taskname) {
   return (taskIndex = list.findIndex((elem) => elem.taskName == taskname));
 }
@@ -42,17 +42,17 @@ function addTask(
     return "This task already exists, try another";
   } else {
     list.push({
-      id: list.length + 1, // Как сделать так что бы задачи при добавлении или удалении имели уникальный id, или переопределяли id попорядку (как просто переномировать еще можно придумать, но где правильней всего вызывать этот метод)
+      id: countId,
       taskName: taskname,
       taskStatus: status,
       taskPrioriti: prioriti,
     });
   }
+  countId++;
 }
 
 function deleteTask(taskname) {
   list.splice(findTask(taskname), 1);
-  // list.filter((elem) => elem.taskName !== taskname); Почему не работает такая конструкция + нельзя переназначить list поскольку это CONST
 }
 function showList() {
   let resTodo = `${TO_DO_STATUS}:\n`;
@@ -75,17 +75,9 @@ function showList() {
     }
   }
 
-  console.log(resTodo + "\n" + resProg + "\n" + resDone); // Как можно лаконичней без циклов вывести все такси по группам?
+  console.log(resTodo + "\n" + resProg + "\n" + resDone);
 }
 
-// Функция по приоритетам не работает = \
-// function showBy(prioriti) {
-//   let newlist = list.reduce((elem, item, index) => {
-//     (elem += item.taskName + " " + item.taskStatus), " ";
-//   });
-//   console.log(newlist);
-// }
-// showBy("priority");
 changeStatus("Feed Cats", "Done");
 deleteTask("Feed Cats");
 addTask("Feed Cats");
